@@ -1,2 +1,2 @@
 # rwkv-cuda
-Tensorflow bindings for RWKV
+Tensorflow bindings for RWKV.
