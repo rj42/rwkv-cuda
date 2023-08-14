@@ -1,9 +1,12 @@
 import imp
+import sys
 import tensorflow as tf
 from tensorflow.python.framework import ops
 
-if not tf.test.is_gpu_available(cuda_only=True):
-    raise ImportError('No cuda device found.')
+if not tf.config.list_physical_devices('GPU'):
+    raise ImportError(f'Failed to load {__name__} library: no cuda devices.')
+else:
+    print(f'Successfully loaded {__name__} library!', file=sys.stderr)
 
 
 lib_file = imp.find_module('kernels', __path__)[1]

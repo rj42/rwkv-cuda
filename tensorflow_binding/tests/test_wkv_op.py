@@ -35,6 +35,7 @@ def compute_wkv_base(w, u, k, v):
     weights = tf.cumsum(mask, exclusive=True, axis=0)                   # [T;U;1]
 
     w = weights * w                                                     # [T;U;H]
+    k = tf.clip_by_value(k, -60, 30)                                    # [B;U;H]
     exp_w = tf.math.exp(w) * mask                                       # [T;U;H]
     exp_k = tf.math.exp(k)                                              # [B;U;H]
     exp_kv = exp_k * v                                                  # [B;U;H]
