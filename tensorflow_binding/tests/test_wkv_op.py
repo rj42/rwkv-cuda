@@ -28,7 +28,7 @@ def make_attention_mask(x):
 
 
 def compute_wkv_base(w, u, k, v):
-    # w equals to exp(log_decay)
+    # w equals to -exp(log_decay)
     # u equals to bonus
 
     mask = tf.expand_dims(make_attention_mask(v), axis=-1)              # [T;U;1]
