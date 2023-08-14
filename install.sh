@@ -8,7 +8,6 @@ export CUDA_HOME=/usr/local/cuda-11.1
 mkdir build && cd build
 cmake -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_HOME .. && make
 
-
 # RWKV: install python library.
 #
 cd ../tensorflow_binding
