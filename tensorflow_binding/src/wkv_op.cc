@@ -6,9 +6,6 @@
 #include "tensorflow/core/framework/allocator.h"
 #include "tensorflow/core/framework/shape_inference.h"
 
-#include <iostream> // using namespace std # TODO!!!!!!!!!
-using namespace std;
-
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //  Externals.
