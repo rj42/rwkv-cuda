@@ -6,14 +6,7 @@ ENDIF()
 
 project(rwkv_cuda)
 
-IF (NOT APPLE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
-ENDIF()
-
-IF (APPLE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O2")
-    add_definitions(-DAPPLE)
-ENDIF()
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 
 include_directories(include)
 
@@ -25,9 +18,6 @@ option(HAS_CUDA "cuda check." ${CUDA_FOUND})
 IF (NOT HAS_CUDA)
     message(FATAL_ERROR "CUDA not found.")
 ENDIF()
-
-# need to be at least 30 or __shfl_down in reduce wont compile
-set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_35,code=sm_35")
 
 set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_50,code=sm_50")
 set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_52,code=sm_52")
@@ -57,17 +47,10 @@ IF (CUDA_VERSION GREATER 11)
     set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -arch=sm_80 -gencode=arch=compute_80,code=sm_80 -gencode=arch=compute_86,code=sm_86 -gencode=arch=compute_86,code=compute_86")
 ENDIF()
 
-if (NOT APPLE)
-    set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} --std=c++11")
-    set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS}")
-
-    #always skip for linux
-    set(CMAKE_SKIP_RPATH TRUE)
-ENDIF()
-
+set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} --std=c++11 -O3 -Xptxas -O3")
+set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} --extra-device-vectorization --use_fast_math")
 
 MESSAGE(STATUS "Building shared library with GPU support")
-set(CUDA_curand_LIBRARY "/usr/local/cuda/lib64/libcurand.so.10")
 
 CUDA_ADD_LIBRARY(rwkv_cuda SHARED src/wkv_cuda.cu)
 
