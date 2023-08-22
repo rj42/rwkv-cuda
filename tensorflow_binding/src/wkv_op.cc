@@ -28,7 +28,7 @@ void cuda_wkv_backward(int B, int T, int C, const float *w, const float *u, cons
 //  Register ops.
 //
 
-REGISTER_OP("WKV_FORWARD")
+REGISTER_OP("WkvForward")
     .Input("w: float32")        // 0 - w    C
     .Input("u: float32")        // 1 - u:   C
     .Input("k: float32")        // 2 - k:   BxTxC
@@ -48,7 +48,7 @@ REGISTER_OP("WKV_FORWARD")
     });
 
 
-REGISTER_OP("WKV_BACKWARD")
+REGISTER_OP("WkvBackward")
     .Input("w: float32")        // 0 - w    C
     .Input("u: float32")        // 1 - u    C
     .Input("k: float32")        // 2 - k    BxTxC
@@ -293,13 +293,13 @@ class WkvBackwardOp : public tf::OpKernel {
 //
 
 REGISTER_KERNEL_BUILDER(
-    Name("WKV_FORWARD")
+    Name("WkvForward")
             .Device(::tensorflow::DEVICE_GPU),
         WkvForwardOp
     );
 
 REGISTER_KERNEL_BUILDER(
-    Name("WKV_BACKWARD")
+    Name("WkvBackward")
             .Device(::tensorflow::DEVICE_GPU),
         WkvBackwardOp
     );

@@ -14,7 +14,7 @@ _rwkv_cuda = tf.load_op_library(lib_file)
 def WKV(w, u, k, v):
     return _rwkv_cuda.wkv_forward(w, u, k, v)
 
-@ops.RegisterGradient("WKV_FORWARD")
+@ops.RegisterGradient("WkvForward")
 def _wkv_backward(op, grad):
     w, u, k, v = op.inputs
     y = op.outputs[0]
